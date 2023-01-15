@@ -1,0 +1,54 @@
+What is HTTP?
+It stands for hypertext transfer protocol. It is a set of rules for browsers to communicate with web servers.
+
+What is a URL?
+URL stands for Uniform Resource Locator, which is usually refered to as a web address. It is a means of 
+connecting to different IP addresses and getting information them.
+
+What is DNS?
+DNS stands for domain name server which is used to translate hostnames to ip addresses.
+
+What is a query string?
+A query string is the part after a url that starts with "?" and allows you to add parameters that can
+be used by web servers. 
+Example:
+"test.com?day=monday&language=english" 
+This URL gives the web browser dynamic day and language variables which was assigned to monday and english, respectively. 
+
+What are two HTTP verbs and how are they different?
+GET request is general request to a web server without affecting the web server.
+POST request is used for modifying server information.
+
+What is an HTTP request?
+An HTTP request is the user's submission to a web server asking for a resource. 
+
+What is an HTTP response?
+An HTTP response is what a web server gives back in response to a user's request.
+
+What is an HTTP header? Give a couple examples of request and response headers you have seen.
+An HTTP header is a piece of information attached to a request/response.
+Example:
+method: GET
+content-language: en
+accept-language: en-US,en;q=0.9
+
+What are the processes that happen when you type “http://somesite.com/some/page.html” into a browser?
+The browser puts itself to http restraints. It will look at somesite.com and check if there exists or corresponding
+IP address in the computer cache. If not, it will check the following in sequential order: router, ISP, DNS. After finding
+the IP address, the browser will attempt to connect using the default http port if not specified. The browser will ask
+ the IP address if there is a file named page.html in the some directory.
+
+Using curl, make a GET request to the icanhazdadjoke.com API to find all jokes involving the word “pirate”
+ curl -H "Accept: text/plain" https://icanhazdadjoke.com/search?term=pirate
+
+Use dig to find what the IP address is for icanhazdadjoke.com
+172.17.192.1
+
+Make a simple web page and serve it using python3 -m http.server. Visit the page in a browser.
+python3 -m http.server >> localhost:8000
+
+Build a very simple HTML form that uses the GET method (it can use the same page URL for the action) when the form is submitted.
+Add a field or two to the form and, after submitting it, explore in Chrome Developer tools how you can view the request and response headers.
+Edit the page to change the form type to POST, refresh in the browser and re-submit. Do you still see the field in the query string? Explore in Chrome 
+how you can view the request and response headers, as well as the form data.
+The input appears in the payload section of chrome dev tools.
