@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+
+</head>
+
+<body>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script>
+
+        $('<form id="myName"></form>').appendTo('body')
+        $('<input class="form-control" type="text" >').appendTo('form')
+        $('<input class="form-control" type="number" min="0" max="5">').appendTo('form')
+        $('<input type="submit">').appendTo('form')
+        $('<div id="holder"></div>').appendTo('body')
+
+        $('#myName').on('submit', function (e) {
+            e.preventDefault();
+            const button = $('<button> remove </button>').on('click', function (e) {
+                $(this).parent().remove()
+            })
+            $(`<h1>Movie name: ${$('input[type=text]').val()} Rating: ${$('input[type=number]').val()} </h1> `).append(button).appendTo('div#holder')
+            $('input[type=text]').val("")
+            $('input[type=number]').val("")
+        })
+    </script>
+</body>
+
+</html>
