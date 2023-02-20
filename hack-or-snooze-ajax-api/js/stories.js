@@ -60,7 +60,7 @@ function favoriteButtonMarkup(story){
 }
 
 function favoriteButtonAddListener(){
-  console.debug("favoriteButtonAddListener");
+console.debug("favoriteButtonAdd~Listener");
   $(".story-favorite-button").on("click", favoriteHandle)
 }
 
