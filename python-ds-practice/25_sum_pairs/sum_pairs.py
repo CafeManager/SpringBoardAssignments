@@ -21,3 +21,11 @@ def sum_pairs(nums, goal):
         >>> sum_pairs([11, 20, 4, 2, 1, 5], 100)
         ()
     """
+    #I believe the 3rd test is a bad test unless the sorting is more specified.
+    pivot = 1
+    for num in nums:
+        for secNum in nums[pivot:]:
+            if num + secNum == goal:
+                return (num, secNum)
+        pivot+=1    
+    return ()

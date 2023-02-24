@@ -11,3 +11,11 @@ def flip_case(phrase, to_swap):
         'AaaaHHH'
 
     """
+    
+    newPhrase = ""
+    for letter in phrase:
+        if letter.lower() == to_swap.lower():
+            newPhrase += letter.swapcase()
+        else:
+            newPhrase+=letter
+    return newPhrase

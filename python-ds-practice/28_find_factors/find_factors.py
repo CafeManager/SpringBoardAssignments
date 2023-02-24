@@ -13,3 +13,4 @@ def find_factors(num):
     >>> find_factors(321421)
     [1, 293, 1097, 321421]
     """
+    return [divide+1 for divide in range(num) if num % (divide+1) == 0]

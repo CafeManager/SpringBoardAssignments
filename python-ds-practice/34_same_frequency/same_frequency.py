@@ -10,3 +10,15 @@ def same_frequency(num1, num2):
         >>> same_frequency(1212, 2211)
         True
     """
+    num1Current = 0
+    num2Current = 0
+
+    possibleInts = "1234567890"
+    strNum1 = str(num1)
+    strNum2 = str(num2)
+
+    for num in possibleInts:
+        if strNum1.count(num) != strNum2.count(num):
+            return False
+
+    return True 

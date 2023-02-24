@@ -18,3 +18,11 @@ def sum_up_diagonals(matrix):
         >>> sum_up_diagonals(m2)
         30
     """
+    sum = 0
+    for num1 in range(len(matrix)):
+        if(matrix[num1][num1] == matrix[num1][len(matrix) - 1 - num1]):
+             sum += matrix[num1][num1]*2
+        else:
+            sum += matrix[num1][num1] 
+            sum += matrix[num1][len(matrix) - 1 - num1]
+    return sum

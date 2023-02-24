@@ -11,3 +11,16 @@ def mode(nums):
         >>> mode([2, 2, 3, 3, 2])
         2
     """
+    numCount = {}
+    mode = 0
+
+    for num in nums:
+        if num not in numCount.keys():
+            numCount[num] = 1
+        else:
+            numCount[num] += 1
+    for num in numCount:
+        if numCount[num] > mode:
+            mode = num
+            
+    return mode
