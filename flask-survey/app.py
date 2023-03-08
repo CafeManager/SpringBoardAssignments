@@ -1,11 +1,10 @@
-from flask import Flask, render_template, redirect, request, flash
+from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from surveys import satisfaction_survey
 
 app = Flask(__name__)
 app.config["SECRET_KEY"]= "hi"
 
-responses = []
 
 
 debug = DebugToolbarExtension(app)
@@ -16,11 +15,13 @@ def home():
 # This is an extra layer of routing. Is this necessary?        
 @app.route("/question/")
 def question_load():   
+    if not session["responses"]:
+        session["responses"] = []
     return redirect("/question/1")
 
 @app.route("/question/<int:id>")
 def question(id):
-    #im going to receive an id. If ID is not equal to 
+    responses = session["responses"]
     curr_question_ID = id -1 
     next_question_ID_from_responses = len(responses) + 1
     if curr_question_ID != next_question_ID_from_responses-1:
@@ -40,12 +41,13 @@ def question(id):
 @app.route("/answer", methods=["POST"])
 def answer():
     # id = request.form["id"]
-    
+    responses = session["responses"]
     current_question_ID_from_responses = len(responses) + 1
     next_question_ID_from_responses = len(responses) + 2
     if "answer" in request.form.keys():
         nextId = len(responses) + 1
         responses.append((current_question_ID_from_responses, request.form["answer"]))
+        session["responses"] = responses
         
     if(len(responses) == len(satisfaction_survey.questions)):
         return redirect("/results")
@@ -55,6 +57,7 @@ def answer():
 
 @app.route("/results")
 def results():
+    responses = session["responses"]
     if len(responses) < len(satisfaction_survey.questions):
         flash("Not all questions answered yet. Redirected to next question to be answered.")
         current_question_ID_from_responses = len(responses) + 1
