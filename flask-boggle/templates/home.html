@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for row in board %}
+        <p> {{row}} </p>
+    {% endfor %}
+
+    <form action="/future-link">
+        <input type="text" name="guess" placeholder="Enter a guess...">
+        <button> submit </button>
+    </form>
+
+{% endblock %}
