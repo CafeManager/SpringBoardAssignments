@@ -1,3 +1,4 @@
+let timerHolder
 
 $("#guessForm").on("submit", e => {
     e.preventDefault()
@@ -17,4 +18,15 @@ $("#guessForm").on("submit", e => {
         $("#score").text(Number(val.length) + Number(total))
         }
     })
+    if(timerHolder){
+        console.log(timerHolder)
+        clearTimeout(timerHolder)
+    }
+    timerHolder = setTimeout(disableGuessing, 60000)
+    console.log(timerHolder)
 })
+
+function disableGuessing(){
+    console.log("reac")
+    $("#submitGuess").prop("disabled", true)
+}
