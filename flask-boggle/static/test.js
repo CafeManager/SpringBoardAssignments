@@ -8,6 +8,13 @@ $("#guessForm").on("submit", e => {
     }).then(res => res.data)
     .then(res=> {
         console.log(res)
-        $("#guessResult").text(res["result"])
+        
+        $("#guessResult").text(val)
+        console.log(res["result"])
+        console.log(res["result"] == "ok")
+        if(res["result"] == "ok"){
+        total = $("#score").text()
+        $("#score").text(Number(val.length) + Number(total))
+        }
     })
 })

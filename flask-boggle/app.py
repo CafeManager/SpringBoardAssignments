@@ -27,6 +27,7 @@ def initialize_board():
     if not session.get("board"):
         board = boggle_game.make_board()
         session["board"] = board
+        session["score"] = 0
     #     word_list = initialize_word_list()
     #     print(word_list)
     # print(word_list)
@@ -50,6 +51,7 @@ def process_guess():
 
     guess = request.get_json()["guess"]
     check = check_if_in_words(guess)    
+    session["score"] = session["score"] + len(guess)
     check = jsonify(check)
     # print(check)
     # import pdb
