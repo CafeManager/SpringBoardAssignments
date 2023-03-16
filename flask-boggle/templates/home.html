@@ -5,9 +5,10 @@
         <p> {{row}} </p>
     {% endfor %}
 
-    <form action="/future-link">
+    <form id="guessForm">
         <input type="text" name="guess" placeholder="Enter a guess...">
         <button> submit </button>
     </form>
-
+    
+    <h1 id="guessResult">  </h1>
 {% endblock %}
