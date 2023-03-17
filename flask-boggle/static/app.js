@@ -1,4 +1,7 @@
-let timerHolder
+// Finishes game after 60 seconds
+$("document").ready(function(){
+    setTimeout(disableGuessing, 60000)
+})
 
 $("#guessForm").on("submit", e => {
     e.preventDefault()
@@ -8,25 +11,22 @@ $("#guessForm").on("submit", e => {
         guess: val
     }).then(res => res.data)
     .then(res=> {
-        console.log(res)
-        
         $("#guessResult").text(val)
-        console.log(res["result"])
-        console.log(res["result"] == "ok")
-        if(res["result"] == "ok"){
+        if(res.trim() == "ok"){
         total = $("#score").text()
         $("#score").text(Number(val.length) + Number(total))
         }
     })
-    if(timerHolder){
-        console.log(timerHolder)
-        clearTimeout(timerHolder)
-    }
-    timerHolder = setTimeout(disableGuessing, 60000)
-    console.log(timerHolder)
+
 })
 
+//disables input button
 function disableGuessing(){
-    console.log("reac")
     $("#submitGuess").prop("disabled", true)
+    total = Number($("#score").text())
+    //sneds result to flask to record score
+    axios.post('/sendResult', {
+        "result" :  total
+    }).then(res => res.data)
+    .then(res => console.log(res))
 }

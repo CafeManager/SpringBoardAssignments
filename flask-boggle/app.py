@@ -28,36 +28,41 @@ def initialize_board():
         board = boggle_game.make_board()
         session["board"] = board
         session["score"] = 0
-    #     word_list = initialize_word_list()
-    #     print(word_list)
-    # print(word_list)
+        if not session.get("past_scores"):
+            session["past_scores"] = []
 
-    
 
 def check_if_in_words(word):
-    file = initialize_word_list()
-    for line in file:
-        if word == line.strip():
-            return {"result":"ok"}
-    return {"result": "not-on-board"}
+    result =  boggle_game.check_valid_word(session["board"], word)
+    print(result)
+    return result
 
-@app.route("/home")
+@app.route("/")
 def home_page():
     initialize_board()
     return(render_template("home.html", board=session["board"]))
 
 @app.route("/guess", methods=["POST"])
 def process_guess():
-
+    #adds score
     guess = request.get_json()["guess"]
-    check = check_if_in_words(guess)    
-    session["score"] = session["score"] + len(guess)
-    check = jsonify(check)
-    # print(check)
-    # import pdb
-    # pdb.set_trace()
-    # session["result"] = check
+    check = check_if_in_words(guess)   
+    if str(check).strip() == "ok":       
+        session["score"] = session["score"] + len(guess)
+    check = jsonify(check.strip())
     return check
+
+@app.route("/sendResult", methods=["POST"])
+def process_game_results():
+    # resets session variables for next instance and adds past score
+    results = request.get_json() 
+    newList = session["past_scores"]
+    newList.append(results["result"])
+    session["past_scores"] = newList
+    session["score"] = 0
+    session["board"] = []
+    
+    return jsonify(newList)
 
 def main():
     initialize_board()

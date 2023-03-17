@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <h1> Welcome to Boggle! </h1>
     {% for row in board %}
         <p> {{row}} </p>
     {% endfor %}
@@ -12,4 +13,11 @@
     
     <h1 id="guessResult">  </h1>
     <p> score: <span id="score">0</span> </p>
+    {% if session.get("past_scores") %}
+    <p> past scores: 
+        {% for score in session["past_scores"]%}
+            <span> {{score}} </span>
+        {% endfor %}
+    {% endif %}
+    </p>
 {% endblock %}
