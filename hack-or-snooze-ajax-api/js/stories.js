@@ -120,7 +120,7 @@ function putFavoriteStoriesOnPage() {
   $allStoriesList.show();
 }
 
-/** sadasd */
+
 async function submitStory(){
   const title = $storyTitle.val();
   const author = $storyAuthor.val();

@@ -1,0 +1,24 @@
+{% extends 'base.html'%}
+{% block content %}
+<form id="form"> 
+    <h1> Welcome to the currency converter! </h1>
+    <div class="error"></div>
+    <div class="form-block">
+        <label for="start"> Convert From: </label>
+        <input type="text" name="start" id="start" placeholder="convertFrom"> 
+    </div>
+    <br>
+    <div class="form-block">
+        <label for="end"> Convert To: </label>
+        <input type="text" name="end" id="end" placeholder="convertTo">
+    </div>
+    <br>
+    <div class="form-block">
+        <label for="amount"> Amount: </label>
+        <input type="text" name="amount" id="amount" placeholder="amount">
+    </div>
+    <br>
+    <button id="submitConversion"> submit </button> 
+    <p id="result"> </p>
+</form> 
+    {% endblock %}

@@ -12,7 +12,6 @@ debug = DebugToolbarExtension(app)
 word_list = []
 
 
-
 def initialize_word_list():
     # from https://towardsthecloud.com/get-relative-path-python
     # This opens files using relative filepath as opposed to writing the absolute path
@@ -44,7 +43,6 @@ def home_page():
 
 @app.route("/guess", methods=["POST"])
 def process_guess():
-    #adds score
     guess = request.get_json()["guess"]
     check = check_if_in_words(guess)   
     if str(check).strip() == "ok":       

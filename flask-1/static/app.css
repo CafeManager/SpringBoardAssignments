@@ -1,0 +1,13 @@
+.form-block{
+    margin-bottom: 1rem;
+}
+
+.error{
+    margin:1.5rem;  
+    background-color: #e86d6d;
+    border-radius: 1rem;
+}
+
+.error-message-padding{
+    padding: .5rem;
+}
