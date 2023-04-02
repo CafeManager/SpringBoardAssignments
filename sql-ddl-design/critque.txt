@@ -1,0 +1,12 @@
+music.sql
+Artists and producers should have their own table that are used as reference.
+
+outer_space.sql
+
+Instead of the object being represented in the galaxy columm, there should 
+be a galaxy table that has a corresponding planet foreign key.
+
+air_traffic.sql
+
+There is probably fine.
+
