@@ -1,16 +1,23 @@
 {% extends 'base.html'%}
+{% block errors %} 
+<div class="error"> 
+    {% for message in get_flashed_messages() %}
+        <p class="error-message-padding"> {{message}} </p>
+    {% endfor %}
+</div>
+{%endblock%}
 {% block content %}
-<form id="form"> 
+<form id="form" action="/form-submit" method="post"> 
     <h1> Welcome to the currency converter! </h1>
     <div class="error"></div>
     <div class="form-block">
         <label for="start"> Convert From: </label>
-        <input type="text" name="start" id="start" placeholder="convertFrom"> 
+        <input type="text" name="startingCurrency" id="start" placeholder="convertFrom"> 
     </div>
     <br>
     <div class="form-block">
         <label for="end"> Convert To: </label>
-        <input type="text" name="end" id="end" placeholder="convertTo">
+        <input type="text" name="endCurrency" id="end" placeholder="convertTo">
     </div>
     <br>
     <div class="form-block">
@@ -19,6 +26,6 @@
     </div>
     <br>
     <button id="submitConversion"> submit </button> 
-    <p id="result"> </p>
+    <p id="result"> {{result}} </p>
 </form> 
     {% endblock %}
