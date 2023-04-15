@@ -23,7 +23,7 @@ class FlaskTests(TestCase):
             self.assertIn('<p id="result"> The result is €', html)
 
     def test_validate_values(self):
-        errorList = validateValues("hi", "me", "12")
+        errorList = validateValues("hi", "me", "12a")
         self.assertEqual(len(errorList), 3)
         self.assertEqual('Invalid currency: hi', errorList[0]) 
         self.assertEqual('Invalid currency: me', errorList[1]) 
