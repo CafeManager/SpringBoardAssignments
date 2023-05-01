@@ -2,17 +2,13 @@ from flask import Flask, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 
-app =  Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///'
 
 db = SQLAlchemy()
 
-
-app.config['SQLALCHEMY_DATABASE_URI'] = ''
 def connect_db(app):
     db.app = app
-    db.init_app()
+    db.init_app(app)
 
 """Models for Blogly."""
 # First, create a User model for SQLAlchemy. Put this in a models.py file.
@@ -26,9 +22,21 @@ def connect_db(app):
 
 class User(db.Model):
     """User."""
-
+    def __repr__(self):
+        user = self
+        return f'<User id={user.id} first_name={user.first_name} last_name={user.last_name} image_url={user.image_url}>'
+    
     __tablename__ = "users"
 
     id = db.Column(db.Integer,
                    primary_key = True,
                    autoincrement=True)
+    
+    first_name = db.Column(db.String(25),
+                   nullable=False)
+    
+    last_name = db.Column(db.String(25),
+                   nullable=False)
+    
+    image_url = db.Column(db.String(100),
+                   default='https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png')

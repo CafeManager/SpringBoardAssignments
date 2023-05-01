@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title> User Profile </title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        
+        <img class="img-size d-inline-block" src="{{user.image_url}}"/>
+        
+        <div class="d-inline-block ms-5">
+            <h1> {{user.first_name}} {{user.last_name}}</span>
+            <br>
+            <a class="btn btn-primary" href="/users/{{user.id}}/edit"> Edit </a>
+            <form action="/users/{{user.id}}/delete" class="d-inline" method="post">
+                <button class="btn btn-danger ms-3"> Delete </button>
+            </form>
+        </div>
+    </div>  
+{% endblock %}
