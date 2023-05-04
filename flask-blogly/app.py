@@ -21,7 +21,7 @@ connect_db(app)
 # redirects to list of users
 @app.route("/")
 def home_page():
-    return render_template('user_profile.html')
+    return redirect('/users')
 
 # show a list of users
 @app.route('/users')
