@@ -1,0 +1,16 @@
+Flask==1.1.1
+Flask-SQLAlchemy<3.0.0
+greenlet==2.0.2
+
+SQLAlchemy<2.0.0
+typing_extensions==4.5.0
+psycopg2==2.9.6
+autopep8==1.4.4
+blinker==1.4
+Click==7.0
+Flask-DebugToolbar==0.10.1
+itsdangerous==1.1.0
+Jinja2==2.10.3
+MarkupSafe==1.1.1
+pycodestyle==2.5.0
+Werkzeug==0.16.0

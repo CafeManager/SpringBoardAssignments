@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> Add Post for {{user.first_name}} {{user.last_name}}</h1>
+
+<form>
+    <label for="title-textbox"> Title </label>
+    <input type="text" name="title-textbox">
+    <label for="content-textbox"> Content </label>
+    <input type="text" name="content-textbox">
+
+</form>
+{% endblock %}
