@@ -1,6 +1,6 @@
 from unittest import TestCase
 from app import app
-from models import User, db
+from models import User, Post, db
 
 app.config["DEBUG_TB_HOSTS"] = ['dont-show-debug-toolbar']
 
@@ -73,5 +73,46 @@ class FlaskTests(TestCase):
             self.assertEqual(new_user_data['last-name'], user.last_name)
             self.assertEqual(new_user_data['image-url'], user.image_url)
             client.post(f'users/{edit_target_id}/delete')
+    
+    #test create post edit and delete post
+    def test_all(self):
+        with self.client as client:
+            my_user = User.query.all().pop()
+            post_target = Post(title='test1', content='test me', user_fk=my_user.id)
+            new_user_data = {
+               'title-textbox': 'tes1',
+               'content-textbox': 'tes2',
+
+            }
+            client.post(f'users/{my_user.id}/posts/new', data=new_user_data)
+            search = Post.query.filter(Post.user_fk == my_user.id, Post.title == 'tes1', Post.content=='tes2').all()
+            self.assertEqual(len(search), 1)
+            search_item = search.pop()
+            client.post(f'posts/{search_item.id}/delete')
+            second_search = search = Post.query.filter(Post.user_fk == my_user.id, Post.title == 'tes1', Post.content=='tes2').all()
+            self.assertEqual(len(second_search), 0)
+    
+
+    def test_edit_post_placeholder(self):
+        with self.client as client:
+            my_post = Post.query.all().pop()
+            search = client.get(f'posts/{my_post.id}/edit')
+            html = search.get_data(as_text=True)
+            self.assertIn(f"""<input type="text" class="form-control" name="title-textbox" placeholder="Title" value="{my_post.title}">""", html)  
+            self.assertIn(f"""<input type="text" class="form-control" name="content-textbox" placeholder="Content" value="{my_post.content}">""", html)
             
-            
+    def test_post_list(self):
+        with self.client as client:
+            my_users = User.query.all()
+            my_user = my_users.pop()
+            my_posts = Post.query.filter(Post.user_fk == my_user.id).all()
+            # while len(my_posts) == 0:
+            #     my_user = my_users.pop()
+            #     my_posts = Post.query.filter(Post.user_fk == my_user.id).all()
+            print(my_posts)
+            res = client.get(f'/users/{my_user.id}')
+            html = res.get_data(as_text=True)
+            for post in my_posts:
+                print(post)
+                self.assertIn(f"""<a href="/posts/{post.id}">{post.title}</a>""", html)
+            print(html)

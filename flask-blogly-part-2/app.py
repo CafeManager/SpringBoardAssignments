@@ -86,29 +86,56 @@ def delete_user(id):
 # show the post creation form
 @app.route('/users/<id>/posts/new')
 def show_post_form(id):
-    return
+    user = User.query.filter(User.id == id).all().pop()
+    print(user)
+    return render_template('user_create_post.html', user=user)
 
 # submit the post to the database
 @app.route('/users/<id>/posts/new', methods=['POST'])
 def submit_post(id):
-    return
+    title = request.form['title-textbox']
+    content = request.form['content-textbox']
+    user_fk = id
+    new_post= Post(title=title, content=content, user_fk=user_fk)
+    db.session.add(new_post)
+    db.session.commit()
+    return redirect(f'/users/{id}')
 
 # show the post
 @app.route('/posts/<id>')
 def show_post(id):
-    return
+    
+    post = Post.query.filter(Post.id == id).all().pop()
+    user = User.query.filter(User.id == post.user_fk).all().pop()
+    print(user)
+    return render_template('show_post.html', post=post, user=user)
 
 # show the edit post form
 @app.route('/posts/<id>/edit')
 def show_edit_post_form(id):
-    return
+    post = Post.query.filter(Post.id == id).all().pop()
+    user = User.query.filter(User.id == post.user_fk).all().pop()
+    return render_template('show_post_edit.html', user=user, post=post)
 
 # process the post edit in the database
-@app.route('/posts/<id>/edit')
+@app.route('/posts/<id>/edit', methods=['POST'])
 def process_post_edit(id):
-    return
+    title = request.form['title-textbox']
+    content = request.form['content-textbox']
+    post = Post.query.filter(Post.id == id).all().pop()
+    post.title = title
+    post.content = content
+    db.session.add(post)
+    db.session.commit()
+
+    return redirect(f'/posts/{id}')
 
 # delete post from database
-@app.route('/posts/<id>/delete')
+@app.route('/posts/<id>/delete', methods=['POST'])
 def delete_post(id):
-    return
+    post = Post.query.filter(Post.id == id)
+    post_item = post.all().pop()
+    user_id = post_item.user_fk
+    post.delete()
+    db.session.commit()
+    return redirect(f'/users/{user_id}')
