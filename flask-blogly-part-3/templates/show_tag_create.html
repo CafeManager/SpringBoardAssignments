@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} <title> Create Tag </title> {% endblock %}
+{% block content %}
+
+
+<div class="container">
+    <h1> Create a tag </h1>
+
+<form action="/tags/new" method="post">
+    <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" name="tag-textbox"> Title </span>
+    <input type="text" class="form-control" name="tag-textbox" placeholder="Tag">
+   
+    </div>
+    
+
+    
+    <div class="float-end">
+        <a class="btn btn-outline-primary mt-3" href="/tags"> Cancel </a>
+        <button class="btn btn-success mt-3"> Add Tag </button>
+    </div>
+</form>
+</div>
+{% endblock %}

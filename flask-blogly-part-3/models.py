@@ -64,6 +64,8 @@ class Post(db.Model):
     user_fk = db.Column(db.Integer, db.ForeignKey('users.id'))
     user_id = db.relationship('User')
 
+    tags = db.relationship('Tag', secondary="post_tags", backref="posts")
+
 class Tag(db.Model):
     "Tag."
     def __repr__(self): 
@@ -79,13 +81,15 @@ class Tag(db.Model):
     name = db.Column(db.Text,
                     nullable = False)
     
+    #   posts = db.relationship('Post', secondary="post_tags", backref="posts")
+    
 class PostTag(db.Model):
     "PostTag."
     def __repr__(self):
         p = self
         return f"<PostTag post_id={p.post_id} tag_id={p.tag_id}>"
     
-    __tablename__ = "posttags"
+    __tablename__ = "post_tags"
 
     post_id = db.Column(db.Integer, db.ForeignKey(
                         'posts.id'),

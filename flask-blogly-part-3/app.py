@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, session, request, jsonify, redirect
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag, PostTag
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -87,8 +87,9 @@ def delete_user(id):
 @app.route('/users/<id>/posts/new')
 def show_post_form(id):
     user = User.query.filter(User.id == id).all().pop()
+    tags = Tag.query.all()
     print(user)
-    return render_template('user_create_post.html', user=user)
+    return render_template('user_create_post.html', user=user, tags=tags)
 
 # submit the post to the database
 @app.route('/users/<id>/posts/new', methods=['POST'])
@@ -96,7 +97,14 @@ def submit_post(id):
     title = request.form['title-textbox']
     content = request.form['content-textbox']
     user_fk = id
+    tag_list = Tag.query.all()
     new_post= Post(title=title, content=content, user_fk=user_fk)
+    for tag in tag_list:
+        if request.form.get(f'{tag.id}'):
+            new_post.tags.append(tag)
+
+    print("here")
+    print(new_post.tags)
     db.session.add(new_post)
     db.session.commit()
     return redirect(f'/users/{id}')
@@ -108,14 +116,15 @@ def show_post(id):
     post = Post.query.filter(Post.id == id).all().pop()
     user = User.query.filter(User.id == post.user_fk).all().pop()
     print(user)
-    return render_template('show_post.html', post=post, user=user)
+    return render_template('show_post.html', post=post, user=user, tags=post.tags)
 
 # show the edit post form
 @app.route('/posts/<id>/edit')
 def show_edit_post_form(id):
     post = Post.query.filter(Post.id == id).all().pop()
     user = User.query.filter(User.id == post.user_fk).all().pop()
-    return render_template('show_post_edit.html', user=user, post=post)
+    tag_list = Tag.query.all()
+    return render_template('show_post_edit.html', user=user, post=post, tags=tag_list, post_tags=post.tags)
 
 # process the post edit in the database
 @app.route('/posts/<id>/edit', methods=['POST'])
@@ -125,6 +134,12 @@ def process_post_edit(id):
     post = Post.query.filter(Post.id == id).all().pop()
     post.title = title
     post.content = content
+    post.tags = []
+    tag_list = Tag.query.all()
+    for tag in tag_list:
+        if request.form.get(f'{tag.id}'):
+            post.tags.append(tag)
+
     db.session.add(post)
     db.session.commit()
 
@@ -136,6 +151,53 @@ def delete_post(id):
     post = Post.query.filter(Post.id == id)
     post_item = post.all().pop()
     user_id = post_item.user_fk
-    post.delete()
+    db.session.delete(post_item)
     db.session.commit()
     return redirect(f'/users/{user_id}')
+
+# start blog 3
+@app.route('/tags')
+def get_tag_list():
+    tag_list = Tag.query.all()
+    return render_template('show_tag_list.html', tags=tag_list)
+
+@app.route('/tags/<id>')
+def get_tag_details(id):
+    tag = Tag.query.filter(Tag.id == id).all().pop()
+    posts = tag.posts
+    # posts = Post.query.filter()
+    return render_template('show_tag.html', tag=tag, posts=posts)
+
+@app.route('/tags/new')
+def get_tag_create_form():
+    return render_template('show_tag_create.html')
+
+@app.route('/tags/new', methods=['POST'])
+def process_tag_create_form():
+    tag_name = request.form['tag-textbox']
+    tag = Tag(name=tag_name)
+    db.session.add(tag)
+    db.session.commit()
+    return redirect('/tags')
+
+@app.route('/tags/<id>/edit')
+def show_edit_tag_form(id):
+    tag = Tag.query.filter(Tag.id == id).all().pop()
+    return render_template('show_tag_edit.html', tag=tag)
+
+@app.route('/tags/<id>/edit', methods=['POST'])
+def process_tag_edit_form(id):
+    tag = Tag.query.filter(Tag.id == id).all().pop()
+    new_name = request.form['tag-name']
+    tag.name = new_name
+    db.session.add(tag)
+    db.session.commit()
+    return redirect(f'/tags/{tag.id}/edit')
+
+
+@app.route('/tags/<id>/delete')
+def process_tag_delete(id):
+    tag = Tag.query.filter(Tag.id == id).all().pop()
+    db.session.delete(tag)
+    db.session.commit()
+    return redirect('/tags')
