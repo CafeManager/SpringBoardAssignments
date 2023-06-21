@@ -1,11 +1,30 @@
-{% extends base.html%}
+{% extends 'base.html' %}
 
 {% block title %}
     <title> home page </title>
 {% endblock %}
 
 {% block content %}
-    <table> 
-        <h1></h1>
-    </table>
+     
+
+        {% for pet_list in pets | batch(4, "") %}
+            <div class="row">
+                {% for pet in pet_list %}
+                    <div class="col">
+                        {% if pet %}
+                            {% if pet.available %}
+                            {% if pet.photo_url%}
+                             <img src="{{pet.photo_url}}" class="img-fluid" alt="test me">
+                            {% endif %}
+                             <p> <a class="no-underline" href="/pet/{{pet.id}}"> {{pet.name}} </a> is <b> available </b> </p>
+                            {% elif pet.available %}
+                            <p> <a class="no-underline" href="/pet/{{pet.id}}"> {{pet.name}} </a> is not available </p>
+                            {% endif %}
+                        {% endif %}
+                    </div> 
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <a class="btn btn-success" href="/add"> Add a pet </a>
+    </div>
 {% endblock %}

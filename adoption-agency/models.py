@@ -11,21 +11,12 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
-"""Models for Blogly."""
-# First, create a User model for SQLAlchemy. Put this in a models.py file.
-
-# It should have the following columns:
-
-# id, an autoincrementing integer number that is the primary key
-# first_name and last_name
-# image_url for profile images
-# Make good choices about whether things should be required, have defaults, and so on.
 
 class Pet(db.Model):
     """Pet."""
     def __repr__(self):
         pet = self
-        # return f'<User id={user.id} first_name={user.first_name} last_name={user.last_name} image_url={user.image_url}>'
+        return f'<Pet id={pet.id} name={pet.name} species={pet.species} photo_url={pet.photo_url} age={pet.age} notes={pet.notes} available={pet.available}>'
     
     __tablename__ = "pets"
 
@@ -33,18 +24,18 @@ class Pet(db.Model):
                    primary_key = True,
                    autoincrement=True)
     
-    name = db.Column(db.Text,
-                    required=True,
+    name = db.Column(db.String,
                     nullable=False)
     
     species = db.Column(db.String,
                         nullable=False) 
     
-    photo_url = db.Column(db.String) 
+    photo_url = db.Column(db.String,
+                          default='https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png') 
     
     age = db.Column(db.Integer)
 
-    notes = db.Column(db.String) 
+    notes = db.Column(db.Text) 
     
     available = db.Column(db.Boolean,
                         default=True)
