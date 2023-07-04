@@ -6,7 +6,8 @@ db = SQLAlchemy()
 def connect_db(app):
     db.app = app
     db.init_app(app)
-    # add [with app context db create all]
+    with app.app_context():
+        db.create_all()
 
 # id - pk
 # flavor - not null text
